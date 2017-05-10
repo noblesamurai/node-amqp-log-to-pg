@@ -1,3 +1,5 @@
+'use strict';
+
 const config = require('./config');
 const amqp = require('amqp-wrapper')(config.amqp);
 const knex = require('knex')(config.db);
