@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "amqp-wrapper": "^5.5.0",
-    "knex": "^0.13.0"
+    "knex": "^0.13.0",
+    "pg": "^6.1.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
