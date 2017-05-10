@@ -10,7 +10,8 @@
     "pretest": "semistandard --env mocha",
     "test": "mocha --recursive test",
     "watch": "mocha --recursive --watch test",
-    "docs": "jsdoc2md index.js"
+    "docs": "jsdoc2md index.js",
+    "start": "node index.js"
   },
   "homepage": "https://github.com/noblesamurai/amqp-log-to-pg",
   "repository": {
