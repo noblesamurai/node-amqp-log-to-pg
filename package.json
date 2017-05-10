@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "amqp-wrapper": "^5.5.0",
+    "debug": "^2.6.6",
     "knex": "^0.13.0",
     "pg": "^6.1.5"
   },

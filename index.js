@@ -3,17 +3,19 @@
 const config = require('./config');
 const amqp = require('amqp-wrapper')(config.amqp);
 const knex = require('knex')(config.db.knex);
+const debug = require('debug')('amqp-log-to-pg');
 
 knex.schema.createTableIfNotExists(config.db.tableName, function (table) {
   table.increments();
   table.jsonb(config.db.tableName);
   table.timestamps(true, true);
+}).then(function() {
+  amqp.connect().then(function () {
+    amqp.consume(onMessage);
+  }).catch(console.error);
 });
 
-amqp.connect().then(function () {
-  amqp.consume(onMessage);
-}).catch(console.error);
-
 function onMessage (message, cb) {
+  debug('message received', message);
   knex(config.db.tableName).insert(message).asCallback(cb);
 }
