@@ -8,7 +8,10 @@ module.exports = {
     }
   },
   db: {
-    url: process.env.DATABASE_URL,
+    knex: {
+      client: 'pg',
+      connection: process.env.DATABASE_URL,
+    },
     tableName: process.env.DATABASE_TABLE_NAME
   }
 };
