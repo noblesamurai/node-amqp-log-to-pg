@@ -12,7 +12,7 @@ describe('The service', function () {
   it('processes a message', function (done) {
     const insert = sinon.stub();
     const knexStub = function () {
-      const me = this;
+      const me = {};
       me.insert = insert.returns(me);
       me.asCallback = sinon.stub().callsArg(0);
       let ret = function () { return me; };
