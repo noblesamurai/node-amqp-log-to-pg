@@ -1,0 +1,48 @@
+{
+  "name": "amqp-log-to-pg",
+  "description": "Logs from an amqp queue to a db.",
+  "version": "1.0.0",
+  "author": "Tim Allen <tim@noblesamurai.com>",
+  "license": "BSD",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "nyc -a -c -r html -r text npm test",
+    "pretest": "semistandard --env mocha",
+    "test": "mocha --recursive test",
+    "watch": "mocha --recursive --watch test",
+    "docs": "jsdoc2md index.js"
+  },
+  "homepage": "https://github.com/noblesamurai/amqp-log-to-pg",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/noblesamurai/amqp-log-to-pg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/noblesamurai/amqp-log-to-pg/issues"
+  },
+  "engines": {
+    "node": "6.x",
+    "npm": "3.x"
+  },
+  "dependencies": {
+    "amqp-wrapper": "^5.5.0",
+    "knex": "^0.13.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
+    "jsdoc-to-markdown": "~3.0.0",
+    "mocha": "~3.3.0",
+    "nyc": "^10.1.2",
+    "proxyquire": "^1.7.11",
+    "semistandard": "*",
+    "sinon": "^2.2.0"
+  },
+  "keywords": [],
+  "nyc": {
+    "exclude": [
+      "coverage",
+      "test"
+    ]
+  }
+}
