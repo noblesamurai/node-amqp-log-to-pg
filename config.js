@@ -1,4 +1,5 @@
-var parseUrl = require('knex/lib/util/parse-connection');
+var parseConnection = require('knex/lib/util/parse-connection');
+const dbConfig = parseConnection(process.env.DATABASE_URL);
 
 module.exports = {
   amqp: {
@@ -10,12 +11,9 @@ module.exports = {
     }
   },
   db: {
-    knex: {
-      client: 'pg',
-      connection: parseUrl(process.env.DATABASE_URL),
-    },
+    knex: dbConfig,
     tableName: process.env.DATABASE_TABLE_NAME
   }
 };
 
-module.exports.db.knex.connection.ssl = true;
+if (process.env.NODE_ENV === 'production') dbConfig.connection.ssl = true;
