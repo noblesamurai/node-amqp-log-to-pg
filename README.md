@@ -3,31 +3,22 @@
 > Logs from an amqp queue to a postgres db.
 
 ## Purpose
-- What problem does this module solve? At least a few sentences.
-PLEASE_FILL_IN_HERE
+Log from an arbitrary amqp queue to a postgres database.  Records are assumed
+to be in JSON format.  They are insert into the specified postgres table as
+`jsonb`.
 
 ## Usage
+Set the env vars accordingly:
+- `AMQP_URL`
+- `AMQP_EXCHANGE`
+- `AMQP_CONSUME` - name of queue to consume from (auto-created)
+- `AMQP_ROUTING_KEY` - routing key to bind to the queue at startup)
+- `DATABASE_URL` - destination db to write to
+- `DATABASE_TABLE_NAME`
 
-```js
-// Several examples of usage.
-// Usually copying and pasting code from the tests and making the code standalone suffices.
-// PLEASE_FILL_IN_HERE
-```
+## Execution
+`node index.js` (with env vars above set)
 
-## API
-
-PLEASE_FILL_IN_HERE
-
-Note: To regenerate this section from the jsdoc run `npm run docs` and paste
-the output above.
-
-## Installation
-
-This module is installed via npm:
-
-``` bash
-$ npm install amqp-log-to-pg
-```
 ## License
 
 The BSD License
