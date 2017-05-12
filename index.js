@@ -7,9 +7,9 @@ const debug = require('debug')('amqp-log-to-pg');
 
 knex.schema.createTableIfNotExists(config.db.tableName, function (table) {
   table.increments();
-  table.jsonb(config.db.tableName);
+  table.jsonb('data');
   table.timestamps(true, true);
-}).then(function() {
+}).then(function () {
   amqp.connect().then(function () {
     amqp.consume(onMessage);
   }).catch(console.error);
@@ -17,5 +17,5 @@ knex.schema.createTableIfNotExists(config.db.tableName, function (table) {
 
 function onMessage (message, cb) {
   debug('message received', message);
-  knex(config.db.tableName).insert(message).asCallback(cb);
+  knex(config.db.tableName).insert({ data: JSON.stringify(message) }).asCallback(cb);
 }
