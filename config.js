@@ -1,5 +1,5 @@
 var parseConnection = require('knex/lib/util/parse-connection');
-const dbConfig = parseConnection(process.env.DATABASE_URL);
+const dbConfig = parseConnection(process.env.DATABASE_URL || 'postgres://localhost/mydb');
 
 module.exports = {
   amqp: {
