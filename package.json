@@ -22,20 +22,20 @@
     "url": "https://github.com/noblesamurai/amqp-log-to-pg/issues"
   },
   "engines": {
-    "node": "6.x",
+    "node": ">= 6",
     "npm": "3.x"
   },
   "dependencies": {
     "amqp-wrapper": "^5.5.0",
     "debug": "^2.6.6",
-    "knex": "^0.13.0",
+    "knex": "^0.15.2",
     "pg": "^6.1.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "dirty-chai": "^1.2.2",
     "jsdoc-to-markdown": "~3.0.0",
-    "mocha": "~3.3.0",
+    "mocha": "^5.2.0",
     "nyc": "^10.1.2",
     "proxyquire": "^1.7.11",
     "semistandard": "*",
