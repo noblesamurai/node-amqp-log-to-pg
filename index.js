@@ -16,13 +16,15 @@ function migrate () {
   });
 }
 
-migrate().then(function (result) {
-  const amqp = require('amqp-wrapper')(config.amqp);
-  hasMeta = result;
-  amqp.connect().then(function () {
-    amqp.consume(onMessage);
-  }).catch(console.error);
-});
+function main () {
+  migrate().then(function (result) {
+    const amqp = require('amqp-wrapper')(config.amqp);
+    hasMeta = result;
+    amqp.connect().then(function () {
+      amqp.consume(onMessage);
+    }).catch(console.error);
+  });
+}
 
 function onMessage (message, cb) {
   debug('message received', message);
@@ -31,4 +33,9 @@ function onMessage (message, cb) {
   knex(config.db.tableName).insert(insert).asCallback(cb);
 }
 
-if (module.main !== module) module.exports.migrate = migrate;
+if (module.main !== module) {
+  module.exports.migrate = migrate;
+  module.exports.main = main;
+} else {
+  main();
+}
