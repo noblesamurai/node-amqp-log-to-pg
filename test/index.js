@@ -30,6 +30,6 @@ describe('The service', function () {
         };
       },
       knex: knexStub
-    });
+    }).main();
   });
 });
