@@ -1,7 +1,6 @@
 'use strict';
 
 const config = require('./config');
-const amqp = require('amqp-wrapper')(config.amqp);
 const knex = require('knex')(config.db.knex);
 const debug = require('debug')('amqp-log-to-pg');
 
@@ -18,6 +17,7 @@ function migrate () {
 }
 
 migrate().then(function (result) {
+  const amqp = require('amqp-wrapper')(config.amqp);
   hasMeta = result;
   amqp.connect().then(function () {
     amqp.consume(onMessage);
