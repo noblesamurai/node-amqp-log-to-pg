@@ -2,22 +2,24 @@
 
 const config = require('./config');
 const debug = require('debug')('amqp-log-to-pg');
+const knex = require('knex')(config.db.knex);
 
-function main () {
-  const knex = require('knex')(config.db.knex);
-  knex.migrate.latest().then(function () {
+async function main () {
+  try {
     const amqp = require('amqp-wrapper')(config.amqp);
-    amqp.connect().then(function () {
-      amqp.consume(onMessage);
-    });
-  }).catch(console.error);
-
-  function onMessage (message, cb) {
-    debug('message received', message);
-    const insert = { data: JSON.stringify(message) };
-    if (message.meta) insert.meta = JSON.stringify(message.meta);
-    knex(config.db.tableName).insert(insert).asCallback(cb);
+    await knex.migrate.latest();
+    await amqp.connect();
+    amqp.consume(onMessage);
+  } catch (err) {
+    console.error(err);
   }
+}
+
+function onMessage (message, cb) {
+  debug('message received', message);
+  const insert = { data: JSON.stringify(message) };
+  if (message.meta) insert.meta = JSON.stringify(message.meta);
+  knex(config.db.tableName).insert(insert).asCallback(cb);
 }
 
 if (module.main !== module) {
