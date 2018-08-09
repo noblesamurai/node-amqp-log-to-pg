@@ -7,8 +7,11 @@ const knex = require('knex')(config.db.knex);
 async function main () {
   try {
     const amqp = require('amqp-wrapper')(config.amqp);
+    debug('running migrations...');
     await knex.migrate.latest();
+    debug('connecting to AMQP...');
     await amqp.connect();
+    debug('ready...');
     amqp.consume(onMessage);
   } catch (err) {
     console.error(err);
