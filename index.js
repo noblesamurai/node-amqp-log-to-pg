@@ -25,7 +25,7 @@ function onMessage (message, cb) {
   knex(config.db.tableName).insert(insert).asCallback(cb);
 }
 
-if (module.main !== module) {
+if (require.main !== module) {
   module.exports.main = main;
 } else {
   main();
