@@ -16,7 +16,10 @@ describe('The service', function () {
       me.insert = insert.returns(me);
       me.asCallback = sinon.stub().callsArg(0);
       let ret = function () { return me; };
-      ret.schema = { createTableIfNotExists: sinon.stub().resolves() };
+      ret.schema = { createTableIfNotExists: sinon.stub().resolves(), hasColumn: sinon.stub().resolves() };
+      ret.migrate = {
+        latest: () => Promise.resolve()
+      };
       return ret;
     };
     proxyquire('..', {
@@ -30,6 +33,6 @@ describe('The service', function () {
         };
       },
       knex: knexStub
-    });
+    }).main();
   });
 });
