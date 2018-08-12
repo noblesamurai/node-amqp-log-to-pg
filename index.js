@@ -1,21 +1,32 @@
 'use strict';
 
 const config = require('./config');
-const amqp = require('amqp-wrapper')(config.amqp);
-const knex = require('knex')(config.db.knex);
 const debug = require('debug')('amqp-log-to-pg');
+const knex = require('knex')(config.db.knex);
 
-knex.schema.createTableIfNotExists(config.db.tableName, function (table) {
-  table.increments();
-  table.jsonb('data');
-  table.timestamps(true, true);
-}).then(function () {
-  amqp.connect().then(function () {
+async function main () {
+  try {
+    const amqp = require('amqp-wrapper')(config.amqp);
+    debug('running migrations...');
+    await knex.migrate.latest();
+    debug('connecting to AMQP...');
+    await amqp.connect();
+    debug('ready...');
     amqp.consume(onMessage);
-  }).catch(console.error);
-});
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 function onMessage (message, cb) {
   debug('message received', message);
-  knex(config.db.tableName).insert({ data: JSON.stringify(message) }).asCallback(cb);
+  const insert = { data: JSON.stringify(message) };
+  if (message.meta) insert.meta = JSON.stringify(message.meta);
+  knex(config.db.tableName).insert(insert).asCallback(cb);
+}
+
+if (require.main !== module) {
+  module.exports.main = main;
+} else {
+  main();
 }
