@@ -1,6 +1,8 @@
 const config = require('../config');
 const { tableName } = config.db;
 
+console.log({tableName});
+
 exports.up = async function (knex) {
   if (knex.schema.hasTable(tableName)) return;
   knex.schema.createTable(tableName, function (table) {
