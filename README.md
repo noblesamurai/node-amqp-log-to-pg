@@ -1,5 +1,4 @@
-# Amqp-log-to-pg [![Build Status](https://secure.travis-ci.org/noblesamurai/amqp-log-to-pg.png?branch=master)](http://travis-ci.org/noblesamurai/amqp-log-to-pg) [![NPM version](https://badge-me.herokuapp.com/api/npm/amqp-log-to-pg.png)](http://badges.enytc.com/for/npm/amqp-log-to-pg)
-
+# amqp-log-to-pg
 > Logs from an amqp queue to a postgres db.
 
 ## Purpose
@@ -8,16 +7,35 @@ to be in JSON format.  They are insert into the specified postgres table as
 `jsonb`.
 
 ## Usage
-Set the env vars accordingly:
-- `AMQP_URL`
-- `AMQP_EXCHANGE`
+
+Set the env vars:
+- `AMQP_URL` - e.g. `amqp://myhost/blah`
+- `AMQP_EXCHANGE` - amqp exchange name
 - `AMQP_CONSUME` - name of queue to consume from (auto-created)
 - `AMQP_ROUTING_KEY` - routing key to bind to the queue at startup)
 - `DATABASE_URL` - destination db to write to
-- `DATABASE_TABLE_NAME`
+- `DATABASE_TABLE_NAME` - e.g. `my_logs`
 
-## Execution
+There are two possible ways to use it.
+Once started up, it listens on the queue defined above and writes the json
+payload it receives to the db (one row per payload).
+
+
+### By checking out the repo
+
+I am using it on heroku.  I check out the repo and push it to heroku.
+To execute:
 `node index.js` (with env vars above set)
+
+### As a module
+
+```
+$ npm install amqp-log-to-pg
+```
+```js
+const logger = require('amqp-log-to-pg');
+logger.main(); // runs it
+```
 
 ## License
 
