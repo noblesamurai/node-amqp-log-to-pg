@@ -15,7 +15,7 @@ describe('The service', function () {
       const me = {};
       me.insert = insert.returns(me);
       me.asCallback = sinon.stub().callsArg(0);
-      let ret = function () { return me; };
+      const ret = function () { return me; };
       ret.schema = { createTableIfNotExists: sinon.stub().resolves(), hasColumn: sinon.stub().resolves() };
       ret.migrate = {
         latest: () => Promise.resolve()
