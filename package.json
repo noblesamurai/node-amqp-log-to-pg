@@ -22,7 +22,7 @@
     "url": "https://github.com/noblesamurai/amqp-log-to-pg/issues"
   },
   "engines": {
-    "node": "10.x",
+    "node": ">=10",
     "npm": "6.x"
   },
   "dependencies": {
