@@ -1,5 +1,3 @@
-'use strict';
-
 const config = require('./config');
 const debug = require('debug')('amqp-log-to-pg');
 const knex = require('knex')(config.db.knex);
@@ -13,8 +11,8 @@ async function main () {
     await amqp.connect();
     debug('ready...');
     amqp.consume(onMessage);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -25,8 +23,8 @@ function onMessage (message, cb) {
   knex(config.db.tableName).insert(insert).asCallback(cb);
 }
 
-if (require.main !== module) {
-  module.exports.main = main;
-} else {
+if (require.main === module) {
   main();
+} else {
+  module.exports.main = main;
 }
