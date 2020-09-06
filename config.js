@@ -1,4 +1,4 @@
-var parseConnection = require('knex/lib/util/parse-connection');
+const parseConnection = require('knex/lib/util/parse-connection');
 const dbConfig = parseConnection(
   process.env.RDS_DATABASE_URL ||
   process.env.DATABASE_URL ||
