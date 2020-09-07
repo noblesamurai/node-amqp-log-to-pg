@@ -2,6 +2,7 @@ const CustomMigrationSource = require('./migration-source');
 const debug = require('debug')('amqp-log-to-pg');
 const onMessage = require('./on-message');
 const ow = require('ow');
+const parseConnection = require('knex/lib/util/parse-connection');
 
 const validateConfig = config => {
   ow(config, ow.object.partialShape({
@@ -25,7 +26,9 @@ async function init (config) {
   validateConfig(config);
 
   tableName = config.tableName;
-  knex = require('knex')(config.db);
+  const dbConfig = parseConnection(config.db);
+  if (process.env.NODE_ENV === 'production') dbConfig.connection.ssl = true;
+  knex = require('knex')(dbConfig);
   amqp = require('amqp-wrapper')(config.amqp);
   debug('running migrations...');
   await knex.migrate.latest({ migrationSource: new CustomMigrationSource(config.tableName) });
