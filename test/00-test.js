@@ -9,16 +9,17 @@ chai.use(require('chai-as-promised'));
 beforeEach(async function () {
   const dbConfig = parseConnection(config.db);
   // Attempt to create the DB in case it doesn't exist.
+  let rootDbConn;
   try {
     const { connection } = dbConfig;
     const rootDbConfig = { ...dbConfig, connection: { ...connection, database: 'postgres' } };
-    console.log({ rootDbConfig });
-    const rootDbConn = _knex(rootDbConfig);
+    rootDbConn = _knex(rootDbConfig);
     await rootDbConn.raw('CREATE DATABASE :database:;', { database: connection.database });
-    await rootDbConn.destroy();
   } catch (error) {
     // 42P04 - DUPLICATE DATABASE (database already exists)... continue anyway.
     if (error.code !== '42P04') throw error;
+  } finally {
+    await rootDbConn.destroy();
   }
 
   this.knex = _knex(dbConfig);
@@ -42,5 +43,5 @@ beforeEach(async function () {
 });
 
 afterEach(async function () {
-  this.knex.destroy();
+  await this.knex.destroy();
 });

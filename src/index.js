@@ -44,14 +44,17 @@ async function main () {
 }
 
 async function shutdown () {
-  debug('shutting down amqp...');
-  amqp.close(closed);
+  return new Promise((resolve, reject) => {
+    debug('shutting down amqp...');
+    amqp.close(closed);
 
-  function closed (err) {
-    if (err) console.log(err);
-    debug('shutting down knex...');
-    knex.destroy();
-  }
+    function closed (err) {
+      if (err) return reject(err);
+      debug('shutting down knex...');
+      // eslint-disable-next-line promise/prefer-await-to-then
+      knex.destroy().then(resolve).catch(reject);
+    }
+  });
 }
 
 if (require.main === module) {
