@@ -4,7 +4,7 @@
   "version": "1.2.0-update.0",
   "author": "Tim Allen <tim@noblesamurai.com>",
   "license": "BSD",
-  "main": "index.js",
+  "main": "src/index",
   "scripts": {
     "coverage": "nyc -a -c -r html -r text npm test",
     "pretest": "xo",
@@ -28,11 +28,14 @@
   "dependencies": {
     "amqp-wrapper": "^5.5.0",
     "debug": "^2.6.6",
+    "env-var": "^6.3.0",
     "knex": "^0.21.5",
+    "ow": "^0.17.0",
     "pg": "^6.1.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-as-promised": "^7.1.1",
     "dirty-chai": "^1.2.2",
     "eslint-config-semistandard": "^15.0.1",
     "eslint-config-standard": "^14.1.1",

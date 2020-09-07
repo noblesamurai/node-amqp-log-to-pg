@@ -1,22 +1,14 @@
-const parseConnection = require('knex/lib/util/parse-connection');
-const dbConfig = parseConnection(
-  process.env.RDS_DATABASE_URL ||
-  process.env.DATABASE_URL ||
-  'postgres://localhost/mydb');
+const envVar = require('env-var');
 
 module.exports = {
   amqp: {
-    url: process.env.AMQP_URL,
-    exchange: process.env.AMQP_EXCHANGE,
+    url: envVar.get('AMQP_URL').asUrlString(),
+    exchange: envVar.get('AMQP_EXCHANGE').asString(),
     queue: {
-      name: process.env.AMQP_CONSUME,
-      routingKey: process.env.AMQP_ROUTING_KEY
+      name: envVar.get('AMQP_CONSUME').asString(),
+      routingKey: envVar.get('AMQP_ROUTING_KEY').asString()
     }
   },
-  db: {
-    knex: dbConfig,
-    tableName: process.env.DATABASE_TABLE_NAME
-  }
+  db: envVar.get('DATABASE_URL').asUrlString(),
+  tableName: envVar.get('DATABASE_TABLE_NAME').asString()
 };
-
-if (process.env.NODE_ENV === 'production') dbConfig.connection.ssl = true;
