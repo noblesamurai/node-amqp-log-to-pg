@@ -53,7 +53,7 @@ async function shutdown () {
 }
 
 if (require.main === module) {
-  main();
+  main().catch(console.error);
 } else {
   module.exports = { init, consume, shutdown };
 }
