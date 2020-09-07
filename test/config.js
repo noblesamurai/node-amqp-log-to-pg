@@ -1,3 +1,4 @@
+const envVar = require('env-var');
 module.exports = {
   amqp: {
     url: '
@@ -7,6 +8,6 @@ module.exports = {
       routingKey: 'routing-key'
     }
   },
-  db: '',
+  db: envVar.get('TEST_DATABASE_URL').default('').asUrlString(),
   tableName: 'test-table'
 };
