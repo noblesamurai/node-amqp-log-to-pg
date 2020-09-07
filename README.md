@@ -46,6 +46,8 @@ It's set up to run out of the box on heroku.  You can check out the repo and pus
 `Procfile` is set to run `node src/index`.  But you can easily run it using docker or whatever.
 (Make sure you set the env vars for this way of running.)
 
+NB: If you are running on heroku, see [here for SSL settings you
+need](https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-node-js).
 ### As a module
 
 ```
