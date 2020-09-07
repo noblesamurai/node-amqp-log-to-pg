@@ -26,9 +26,7 @@ async function init (config) {
   validateConfig(config);
 
   tableName = config.tableName;
-  const dbConfig = parseConnection(config.db);
-  if (process.env.NODE_ENV === 'production') dbConfig.connection.ssl = true;
-  knex = require('knex')(dbConfig);
+  knex = require('knex')(config.db);
   amqp = require('amqp-wrapper')(config.amqp);
   debug('running migrations...');
   await knex.migrate.latest({ migrationSource: new CustomMigrationSource(config.tableName) });
