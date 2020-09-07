@@ -8,7 +8,13 @@ to be in JSON format.  They are insert into the specified postgres table as
 
 ## Usage
 
-Set the env vars:
+There are two possible ways to use it.
+Once started up, it listens on the specified queue and writes the json
+payload it receives to the db (one row per payload).
+
+### Config
+
+Set the env vars (if using the repo directly).
 - `AMQP_URL` - e.g. `amqp://myhost/blah`
 - `AMQP_EXCHANGE` - amqp exchange name
 - `AMQP_CONSUME` - name of queue to consume from (auto-created)
@@ -16,16 +22,29 @@ Set the env vars:
 - `DATABASE_URL` - destination db to write to
 - `DATABASE_TABLE_NAME` - e.g. `my_logs`
 
-There are two possible ways to use it.
-Once started up, it listens on the queue defined above and writes the json
-payload it receives to the db (one row per payload).
+or else:
+
+```js
+const config = {
+  db: 'postgres://user:password@postgreshost/database',
+  amqp: {
+    url: 'amqp://user:password@amqphost/vhost',
+    exchange: 'exchange-name',
+    queue: {
+      name: 'queue-name',
+      routingKey: 'will-bind-queue-to-this'
+    })
+  }),
+  tableName: 'your_table_name'
+}
+```
 
 
 ### By checking out the repo
 
-I am using it on heroku.  I check out the repo and push it to heroku.
-To execute:
-`node index.js` (with env vars above set)
+It's set up to run out of the box on heroku.  You can check out the repo and push it to heroku.
+`Procfile` is set to run `node src/index`.  But you can easily run it using docker or whatever.
+(Make sure you set the env vars for this way of running.)
 
 ### As a module
 
@@ -33,8 +52,15 @@ To execute:
 $ npm install amqp-log-to-pg
 ```
 ```js
-const logger = require('amqp-log-to-pg');
-logger.main(); // runs it
+(async => {
+  const { init, consume, shutdown } = require('amqp-log-to-pg');
+  const config = { /* see above for config format */ };
+
+  await init(config); // connects to db, connects to rabbitmq, run unrun migrations
+  consume(); // starts operation
+  /*...*/m
+  await shtudown(); // close connections to db + rabbitmq
+})();
 ```
 
 ## License
