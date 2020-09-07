@@ -1,8 +1,8 @@
+const AMQP = require('simple-amqplib');
 const CustomMigrationSource = require('./migration-source');
 const debug = require('debug')('amqp-log-to-pg');
 const onMessage = require('./on-message');
 const ow = require('ow');
-const parseConnection = require('knex/lib/util/parse-connection');
 
 const validateConfig = config => {
   ow(config, ow.object.partialShape({
@@ -27,7 +27,7 @@ async function init (config) {
 
   tableName = config.tableName;
   knex = require('knex')(config.db);
-  amqp = require('amqp-wrapper')(config.amqp);
+  amqp = new AMQP(config.amqp);
   debug('running migrations...');
   await knex.migrate.latest({ migrationSource: new CustomMigrationSource(config.tableName) });
   debug('connecting to AMQP...');
@@ -46,17 +46,10 @@ async function main () {
 }
 
 async function shutdown () {
-  return new Promise((resolve, reject) => {
-    debug('shutting down amqp...');
-    amqp.close(closed);
-
-    function closed (err) {
-      if (err) return reject(err);
-      debug('shutting down knex...');
-      // eslint-disable-next-line promise/prefer-await-to-then
-      knex.destroy().then(resolve).catch(reject);
-    }
-  });
+  debug('shutting down amqp...');
+  await amqp.close();
+  debug('shutting down knex...');
+  await knex.destroy();
 }
 
 if (require.main === module) {
