@@ -43,9 +43,20 @@ async function main () {
   consume();
 }
 
+async function shutdown () {
+  debug('shutting down amqp...');
+  amqp.close(closed);
+
+  function closed (err) {
+    if (err) console.log(err);
+    debug('shutting down knex...');
+    knex.destroy();
+  }
+}
+
 if (require.main === module) {
   const config = require('../config');
   main(config);
 } else {
-  module.exports = { init, consume };
+  module.exports = { init, consume, shutdown };
 }

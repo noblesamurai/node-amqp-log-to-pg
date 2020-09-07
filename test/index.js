@@ -1,7 +1,7 @@
 const chai = require('chai');
 const config = require('./config');
 const { expect } = chai;
-const { init } = require('..');
+const { init, shutdown } = require('..');
 
 describe('init()', () => {
   it('throw on invalid config', async () => {
@@ -11,5 +11,6 @@ describe('init()', () => {
 
   it('ititialises', async () => {
     await init(config);
+    shutdown();
   });
 });

@@ -1,7 +1,7 @@
 const envVar = require('env-var');
 module.exports = {
   amqp: {
-    url: envVar.get('TEST_RABBITMQ_URL').default('
+    url: envVar.get('TEST_RABBITMQ_URL').default('').asUrlString(),
     exchange: 'mine',
     queue: {
       name: 'the-queue',
