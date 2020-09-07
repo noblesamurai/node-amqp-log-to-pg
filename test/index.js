@@ -11,6 +11,6 @@ describe('init()', () => {
 
   it('ititialises', async () => {
     await init(config);
-    shutdown();
+    await shutdown();
   });
 });
