@@ -39,7 +39,8 @@ function consume () {
 }
 
 async function main () {
-  await init();
+  const config = require('../config');
+  await init(config);
   consume();
 }
 
@@ -58,8 +59,7 @@ async function shutdown () {
 }
 
 if (require.main === module) {
-  const config = require('../config');
-  main(config);
+  main();
 } else {
   module.exports = { init, consume, shutdown };
 }
