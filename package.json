@@ -26,12 +26,12 @@
     "npm": "6.x"
   },
   "dependencies": {
-    "amqp-wrapper": "^5.5.0",
     "debug": "^2.6.6",
     "env-var": "^6.3.0",
     "knex": "^0.21.5",
     "ow": "^0.17.0",
-    "pg": "^8.3.3"
+    "pg": "^8.3.3",
+    "simple-amqplib": "^7.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
