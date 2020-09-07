@@ -7,3 +7,5 @@ node_js:
 services:
   - rabbitmq
   - postgresql
+env:
+  - TEST_DATABASE_URL=postgres://postgres@localhost/test-db
