@@ -8,7 +8,12 @@ to be in JSON format.  They are insert into the specified postgres table as
 
 ## Usage
 
-There are two possible ways to use it.
+There are two possible ways to use it. You can run the module directly from node, or you can `require()` it and pass in
+some config and get lifecycle management using the exported methods.
+
+If you run it directly, the module would look for the listed environment variables.  If you `require()` it, you must pass
+the config in as an object.
+
 Once started up, it listens on the specified queue and writes the json
 payload it receives to the db (one row per payload).
 
