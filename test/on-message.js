@@ -1,12 +1,15 @@
 const config = require('./config');
 const onMessage = require('../src/on-message');
 const { expect } = require('chai');
-const { init } = require('..');
+const { init, shutdown } = require('..');
 const { tableName } = require('./config');
 
 describe('on-message', () => {
   beforeEach(async () => {
     await init(config);
+  });
+  afterEach(async () => {
+    await shutdown();
   });
   it('inserts a record', function (done) {
     const { knex } = this;
