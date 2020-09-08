@@ -39,21 +39,20 @@ function consume () {
   amqp.consume(onMessage(knex, tableName));
 }
 
-async function main () {
-  const config = require('../config');
-  await init(config);
-  consume();
-}
-
 async function shutdown () {
   debug('shutting down amqp...');
-  await amqp.close();
+  try {
+    await amqp.close();
+  } catch (error) {
+    error.log(error);
+  }
+
   debug('shutting down knex...');
-  await knex.destroy();
+  try {
+    await knex.destroy();
+  } catch (error) {
+    error.log(error);
+  }
 }
 
-if (require.main === module) {
-  main().catch(console.error);
-} else {
-  module.exports = { init, consume, shutdown };
-}
+module.exports = { init, consume, shutdown };
