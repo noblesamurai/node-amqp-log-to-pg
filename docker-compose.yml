@@ -1,0 +1,32 @@
+version: '2.1'
+services:
+  test:
+    build: .
+    depends_on:
+      - postgres
+      - rabbitmq
+    links:
+      - postgres
+      - rabbitmq
+    command: npm test
+    volumes:
+      - ./test:/usr/src/app/test
+      - ./src:/usr/src/app/src
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    image: postgres:10
+  psql:
+    environment:
+      - POSTGRES_PASSWORD=password
+    image: postgres:10
+    links:
+      - postgres
+    command: psql postgres://postgres:password@postgres/test-db
+  rabbitmq:
+    image: rabbitmq

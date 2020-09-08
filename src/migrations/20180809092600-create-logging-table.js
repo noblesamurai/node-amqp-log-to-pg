@@ -3,7 +3,7 @@ const { tableName } = config.db;
 
 exports.up = async function (knex) {
   if (await knex.schema.hasTable(tableName)) return;
-  return knex.schema.createTable(tableName, function (table) {
+  return knex.schema.createTable(tableName, table => {
     table.increments();
     table.jsonb('data');
     table.timestamps(true, true);

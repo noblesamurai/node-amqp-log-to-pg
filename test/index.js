@@ -1,38 +1,16 @@
-'use strict';
-
 const chai = require('chai');
-const dirtyChai = require('dirty-chai');
-const expect = chai.expect;
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
+const config = require('./config');
+const { expect } = chai;
+const { init, shutdown } = require('..');
 
-chai.use(dirtyChai);
+describe('init()', () => {
+  it('throw on invalid config', async () => {
+    console.log(init);
+    await expect(init()).to.eventually.be.rejectedWith(Error, 'to be of type');
+  });
 
-describe('The service', function () {
-  it('processes a message', function (done) {
-    const insert = sinon.stub();
-    const knexStub = function () {
-      const me = {};
-      me.insert = insert.returns(me);
-      me.asCallback = sinon.stub().callsArg(0);
-      let ret = function () { return me; };
-      ret.schema = { createTableIfNotExists: sinon.stub().resolves(), hasColumn: sinon.stub().resolves() };
-      ret.migrate = {
-        latest: () => Promise.resolve()
-      };
-      return ret;
-    };
-    proxyquire('..', {
-      'amqp-wrapper': function () {
-        return {
-          connect: sinon.stub().resolves(),
-          consume: sinon.stub().callsArgWith(0, { message: 'yeah' }, function () {
-            expect(insert.callCount).to.equal(1);
-            done();
-          })
-        };
-      },
-      knex: knexStub
-    }).main();
+  it('ititialises', async () => {
+    await init(config);
+    await shutdown();
   });
 });
