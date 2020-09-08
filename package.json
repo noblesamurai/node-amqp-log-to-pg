@@ -5,6 +5,9 @@
   "author": "Tim Allen <tim@noblesamurai.com>",
   "license": "BSD-3-Clause",
   "main": "src/index",
+  "bin": {
+    "amqp-log-to-pg": "./bin/run.js"
+  },
   "scripts": {
     "coverage": "nyc -a -c -r html -r text npm test",
     "pretest": "xo",
