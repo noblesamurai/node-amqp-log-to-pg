@@ -26,7 +26,7 @@ beforeEach(async function () {
 
   // Remove all the tables so the migrations will run again.
   const tables = [config.tableName, 'knex_migrations', 'knex_migrations_lock'];
-  await Promise.all(tables.map(name => this.knex.dropTableIfExists(name)));
+  await Promise.all(tables.map(name => this.knex.schema.dropTableIfExists(name)));
 });
 
 afterEach(async function () {
