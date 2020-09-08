@@ -23,23 +23,10 @@ beforeEach(async function () {
   }
 
   this.knex = _knex(dbConfig);
-  try {
-    await this.knex.raw('DROP TABLE :tableName:', { tableName: config.tableName });
-  } catch (error) {
-    if (error.code !== '42P01') throw error; // ignore table doesn't exist
-  }
 
-  try {
-    await this.knex.raw('DROP TABLE knex_migrations');
-  } catch (error) {
-    if (error.code !== '42P01') throw error; // ignore table doesn't exist
-  }
-
-  try {
-    await this.knex.raw('DROP TABLE knex_migrations_lock');
-  } catch (error) {
-    if (error.code !== '42P01') throw error; // ignore table doesn't exist
-  }
+  // Remove all the tables so the migrations will run again.
+  const tables = [config.tableName, 'knex_migrations', 'knex_migrations_lock'];
+  await Promise.all(tables.map(name => this.knex.dropTableIfExists(name)));
 });
 
 afterEach(async function () {
