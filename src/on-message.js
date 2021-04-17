@@ -1,4 +1,4 @@
-const debug = require('debug')('amqp-log-to-amqp:on-message');
+const debug = require('debug')('amqp-log-to-pg:on-message');
 
 function onMessage (knex, tableName) {
   return function (message, cb) {
