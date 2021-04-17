@@ -28,8 +28,13 @@ async function init (config) {
   tableName = config.tableName;
   knex = require('knex')(config.db);
   amqp = new AMQP(config.amqp);
-  debug('running migrations...');
-  await knex.migrate.latest({ migrationSource: new CustomMigrationSource(config.tableName) });
+  if (config.runMigrations === true) {
+    debug('running migrations...');
+    await knex.migrate.latest({ migrationSource: new CustomMigrationSource(config.tableName) });
+  } else {
+    debug('skipping migrations...');
+  }
+
   debug('connecting to AMQP...');
   await amqp.connect();
   debug('ready...');

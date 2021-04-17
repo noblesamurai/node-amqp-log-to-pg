@@ -10,5 +10,6 @@ module.exports = {
     }
   },
   db: envVar.get('DATABASE_URL').asUrlString(),
-  tableName: envVar.get('DATABASE_TABLE_NAME').asString()
+  tableName: envVar.get('DATABASE_TABLE_NAME').asString(),
+  runMigrations: envVar.get('AMQP_LOG_TO_PG_RUN_MIGRATIONS').default('true').asBool()
 };

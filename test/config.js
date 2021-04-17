@@ -9,5 +9,6 @@ module.exports = {
     }
   },
   db: envVar.get('TEST_DATABASE_URL').default('').asUrlString(),
-  tableName: 'test-table'
+  tableName: 'test-table',
+  runMigrations: true
 };
