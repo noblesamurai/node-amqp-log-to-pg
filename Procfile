@@ -1,1 +1,1 @@
-worker: node index
+worker: npx amqp-log-to-pg
