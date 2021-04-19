@@ -15,9 +15,8 @@ describe('on-message', () => {
     const { knex } = this;
     onMessage(this.knex, tableName)({ sample: 'message' }, cb);
 
-    function cb (err) {
-      if (err) return done(err);
-      // eslint-disable-next-line promise/prefer-await-to-then
+    function cb (error) {
+      if (error) return done(error);
       knex(tableName).select().then(result => {
         expect(result.length).to.equal(1);
         done();
