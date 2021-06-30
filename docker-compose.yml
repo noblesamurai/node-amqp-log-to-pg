@@ -21,12 +21,5 @@ services:
       timeout: 5s
       retries: 5
     image: postgres:10
-  psql:
-    environment:
-      - POSTGRES_PASSWORD=password
-    image: postgres:10
-    links:
-      - postgres
-    command: psql 
   rabbitmq:
     image: rabbitmq
