@@ -31,9 +31,9 @@ or else:
 
 ```js
 const config = {
-  db: '
+  db: 'postgres://...',
   amqp: {
-    url: '
+    url: 'amqp://...',
     exchange: 'exchange-name',
     queue: {
       name: 'queue-name',
