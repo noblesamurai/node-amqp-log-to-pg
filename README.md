@@ -65,7 +65,7 @@ $ npm install amqp-log-to-pg
 
   await init(config); // connects to db, connects to rabbitmq, run unrun migrations
   consume(); // starts operation
-  /*...*/m
+  /*...*/
   await shtudown(); // close connections to db + rabbitmq
 })();
 ```
