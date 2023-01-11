@@ -27,7 +27,7 @@
   "dependencies": {
     "debug": "^4.3.1",
     "env-var": "^7.0.0",
-    "knex": "^0.21.5",
+    "knex": "^2.4.0",
     "ow": "^0.17.0",
     "pg": "^8.3.3",
     "simple-amqplib": "^7.0.3"
